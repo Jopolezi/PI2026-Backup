@@ -1,5 +1,5 @@
-# Sellhub
-Repository for the integrated project of Fatec Taquaritinga. Developed by João Francisco Polezi, Leonardo Amato Sander Silva, and Valentino Amato Sander Silva, this project aims to provide a solution for e-commerce sales management
+# Servimap
+Repository for the integrated project of Fatec Taquaritinga. Developed by João Francisco Polezi, Leonardo Amato Sander Silva, and Valentino Amato Sander Silva, this project aims to provide a scheduling solution for local businesses.
 
 # Stack
 **Frontend** <br>
@@ -12,8 +12,6 @@ ___
  ![Node](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white) Node.js <br>
  ![Express](https://img.shields.io/badge/Express.js-API-black?logo=express) Express.js <br> 
  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white) PostgreSQL <br>
-
-Integrates Mercado Libre Developers API and Shopee Open Platform
 
 ___
 
