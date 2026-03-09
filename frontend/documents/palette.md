@@ -1,5 +1,4 @@
 ## Palette
-___
 
 ### Background
 
