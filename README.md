@@ -1,4 +1,4 @@
-# Servimap
+# Servmap
 Repository for the integrated project of Fatec Taquaritinga. Developed by João Francisco Polezi, Leonardo Amato Sander Silva, and Valentino Amato Sander Silva, this project aims to provide a scheduling solution for local businesses.
 
 # Stack
