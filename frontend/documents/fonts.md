@@ -1,9 +1,8 @@
 ## Fonts
 
-### Principal font 
-- **Sora - 600** <br>
-```npm install @fontsource/sora```
+Bricolage Grotesque
+Bold
 
-### Secondary font
-- **Lato - 400** <br>
-```npm install @fontsource/lato```
+
+Plus Jakarta Sans
+Semibold
