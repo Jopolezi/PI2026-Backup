@@ -1,11 +1,12 @@
 // Imports
 import { Outlet } from "react-router"
-import Header from "@/components/common/header/Header"
+import { ConsumerHeader } from "../../components/common/header"
 
  const PublicLayout = () => {
 
     return ( <>
-        <Header/>
+        <ConsumerHeader />
+        <Outlet />
     </>)
 }
 

@@ -1,0 +1,6 @@
+export { BusinessHero } from "./hero/BusinessHero"
+export { BusinessHighlight } from "./highlights/BusinessHighlights"
+export { BusinessSystem } from "./system/BusinessSystem"
+export { BusinessExperience } from "./experience/BusinessExpierience"
+export { BusinessSegments } from "./segments/BusinessSegments"
+export { BusinessPlans } from "./plans/BusinessPlans"
