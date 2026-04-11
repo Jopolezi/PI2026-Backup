@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "module": "commonjs",
+    "target": "es2020",
+
+    "types": ["node"],
+    "lib": ["es2020"],
+
+    "experimentalDecorators": true, // Habilita o uso de decorators (@Entity, @Column, etc.)
+    "emitDecoratorMetadata": true, // Permite que bibliotecas (ex: TypeORM) leiam os tipos das propriedades em tempo de execução
+
+    "sourceMap": true,
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
