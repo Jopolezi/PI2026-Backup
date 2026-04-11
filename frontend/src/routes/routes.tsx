@@ -5,6 +5,10 @@ import PublicLayout from "./layouts/PublicLayout"
 import LandingClient from "@/pages/landings/Client/LandingClient"
 import LandingEnterprise from "../pages/landings/Enterprise/LandingEnterprise"
 
+// Access 
+import { Login } from "../pages/access/login/Login"
+import { Register } from "../pages/access/register/Register"
+
 const routes = createBrowserRouter([
     {
         element: ( <PublicLayout/> ),
@@ -20,6 +24,14 @@ const routes = createBrowserRouter([
     {
         element: ( <LandingEnterprise/> ),
         path: "/empresas"
+    },
+    {
+        element: ( <Login />),
+        path: "/entrar"
+    },
+    {
+        element: ( <Register />),
+        path: "/cadastrar"
     }
 ])
 
