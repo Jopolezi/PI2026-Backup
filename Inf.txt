@@ -1,5 +1,0 @@
-express → cria servidor
-typeorm → conecta com banco
-pg → faz o PostgreSQL funcionar
-reflect-metadata → obrigatório pro TypeORM
-@types → faz o TypeScript entender tudo
