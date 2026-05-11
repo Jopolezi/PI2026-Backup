@@ -1,5 +1,5 @@
   import { Router } from "express";
-  import { authToken } from "../middlewares/userMiddlewares";
+  import { authToken } from "../middlewares/authMiddlewares";
   
   import {
     createUser,

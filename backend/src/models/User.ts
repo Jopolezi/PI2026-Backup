@@ -19,6 +19,9 @@ export class User {
   @Column()
   name!: string;
 
+  @Column({ default: false })
+  isCompany!: boolean;
+
   @CreateDateColumn()
   createdAt!: Date;
 }
