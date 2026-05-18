@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER || "postgres",
   password: process.env.DB_PASSWORD || "123456",
   database: process.env.DB_NAME || "servimap",
-
+  
   synchronize: true, // 
-  entities: [User],
+  entities: [User, Company],
 });

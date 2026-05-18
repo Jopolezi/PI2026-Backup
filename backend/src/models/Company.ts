@@ -2,17 +2,24 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn
+
 } from "typeorm";
 import { User } from "./User";
 
-@Entity()
+@Entity("companys")
 export class Company {
+
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  name!: string;
+  fantasyName!: string;
+
+  @Column({ unique: true })
+  cnpj!: string; 
 
   @Column()
   description!: string;
@@ -20,24 +27,12 @@ export class Company {
   @Column()
   phone!: string;
 
-  @Column()
-  address!: string;
+  @CreateDateColumn()
+  createdAt!: Date;
 
-  @Column()
-  city!: string;
-
-  @Column()
-  state!: string;
-
-  @Column({ unique: true })
-  cnpj!: string;
-
-  @Column("float")
-  latitude!: number;
-
-  @Column("float")
-  longitude!: number;
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   @ManyToOne(() => User)
-  user!: User;
+  owner!: User;
 }
