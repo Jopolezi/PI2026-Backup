@@ -4,10 +4,12 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
-  UpdateDateColumn
-
+  UpdateDateColumn,
+  OneToMany
 } from "typeorm";
+
 import { User } from "./User";
+import { Establishment } from "./Establishment";
 
 @Entity("companys")
 export class Company {
@@ -19,7 +21,7 @@ export class Company {
   fantasyName!: string;
 
   @Column({ unique: true })
-  cnpj!: string; 
+  cnpj!: string;
 
   @Column()
   description!: string;
@@ -35,4 +37,10 @@ export class Company {
 
   @ManyToOne(() => User)
   owner!: User;
+
+  @OneToMany(
+    () => Establishment,
+    (establishment) => establishment.company
+  )
+  establishments!: Establishment[];
 }

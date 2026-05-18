@@ -1,28 +1,34 @@
-  import "reflect-metadata";
-  import express from "express";
-  import { AppDataSource } from "./database/data-source";
-  import userRoutes from "./routes/userRoutes";
-  import companyRoutes from "./routes/companyRoutes";
+import "reflect-metadata";
+import express from "express";
 
-  const app = express();
+import { AppDataSource } from "./database/data-source";
 
-  app.use(express.json());
+import userRoutes from "./routes/userRoutes";
+import companyRoutes from "./routes/companyRoutes";
+import establimentRoutes from "./routes/establishmentRoutes";
 
-  AppDataSource.initialize()
-    .then(() => {
-      console.log("Banco conectado 🚀");
+const app = express();
 
-      app.use("/users", userRoutes);
-      app.use("/company", companyRoutes);
+app.use(express.json());
 
-      app.get("/", (req, res) => {
-        res.send("API rodando 🚀");
-      });
+AppDataSource.initialize()
+  .then(() => {
 
-      app.listen(3000, () => {
-        console.log("Servidor rodando em http://localhost:3000");
-      });
-    })
-    .catch((error) => {
-      console.error("Erro ao conectar no banco:", error);
+    console.log("Banco conectado 🚀");
+
+    app.use("/users", userRoutes);
+    app.use("/company", companyRoutes);
+    app.use("/establishments", establimentRoutes);
+
+    app.get("/", (req, res) => {
+      res.send("API rodando 🚀");
     });
+
+    app.listen(3000, () => {
+      console.log("Servidor rodando em http://localhost:3000");
+    });
+
+  })
+  .catch((error) => {
+    console.error("Erro ao conectar no banco:", error);
+  });

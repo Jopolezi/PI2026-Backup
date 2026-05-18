@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "../models/User";
 import { Company } from "../models/Company"
+import { Establishment } from "../models/Establishment";
 import dotenv from "dotenv";
 
 dotenv.config(); 
@@ -15,5 +16,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || "servimap",
   
   synchronize: true, // 
-  entities: [User, Company],
+  entities: [User, Company, Establishment],
 });
