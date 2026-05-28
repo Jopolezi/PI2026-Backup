@@ -5,9 +5,13 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
+    OneToMany,
 } from "typeorm";
 
 import { Company } from "./Company";
+import { Category } from "./Category";
+import { Employe } from "./Employe";
+import { Service } from "./Service";
 
 @Entity("establishments")
 export class Establishment {
@@ -65,4 +69,13 @@ export class Establishment {
 
     @UpdateDateColumn()
     updatedAt!: Date;
+
+    @ManyToOne(() => Category, (category) => category.establishments, { nullable: true })
+    category!: Category;
+
+    @OneToMany(() => Employe, (employe) => employe.establishment)
+    employes!: Employe[];
+
+    @OneToMany(() => Service, (service) => service.establishment)
+    services!: Service[];
 }

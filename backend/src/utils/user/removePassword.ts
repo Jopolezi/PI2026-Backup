@@ -5,4 +5,4 @@ export const removePassword = (
   const { password, ...userWithoutPassword } = user;
 
   return userWithoutPassword;
-};
+};  

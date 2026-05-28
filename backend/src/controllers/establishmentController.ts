@@ -4,6 +4,9 @@ import { AppDataSource } from "../database/data-source";
 import { Establishment } from "../models/Establishment";
 import { Company } from "../models/Company";
 
+import { geocodeAddress } from '../services/geocodeService';
+import { findNearbyEstablishments } from '../services/establishmentService';
+
 import { removePassword } from "../utils/user/removePassword";
 
 const establishmentRepo = AppDataSource.getRepository(Establishment);
@@ -59,6 +62,17 @@ export const createEstablishment = async (req: Request, res: Response) => {
       });
     }
 
+    let finalLatitude = latitude;
+    let finalLongitude = longitude;
+
+    if (!finalLatitude || !finalLongitude) {
+      const geo = await geocodeAddress(address, number, district, city, state, cep);
+      if (geo) {
+        finalLatitude = geo.latitude;
+        finalLongitude = geo.longitude;
+      }
+    }
+
     const establishment = establishmentRepo.create({
       name,
       address,
@@ -67,8 +81,8 @@ export const createEstablishment = async (req: Request, res: Response) => {
       state,
       city,
       cep,
-      latitude,
-      longitude,
+      latitude: finalLatitude,
+      longitude: finalLongitude,
       company
     });
 
@@ -267,6 +281,36 @@ export const deleteEstablishment = async (req: Request, res: Response) => {
     return res.json({
       message: "Estabelecimento deletado"
     });
+
+  } catch (error) {
+
+    console.error(error);
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
+
+  }
+};
+
+export const findNearby = async (req: Request, res: Response) => {
+  try {
+
+    const { lat, lng, radius = '5' } = req.query;
+
+    if (!lat || !lng) {
+      return res.status(400).json({
+        error: "Latitude e longitude são obrigatórios"
+      });
+    }
+
+    const establishments = await findNearbyEstablishments({
+      lat: Number(lat),
+      lng: Number(lng),
+      radius: Number(radius),
+    });
+
+    return res.json(establishments);
 
   } catch (error) {
 
