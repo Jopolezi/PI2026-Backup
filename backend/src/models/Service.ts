@@ -27,7 +27,7 @@ export class Service {
     price!: number;
 
     @Column()
-    duration!: number; // em minutos
+    duration!: number; 
 
     @ManyToOne(() => Establishment, (establishment) => establishment.services)
     establishment!: Establishment;

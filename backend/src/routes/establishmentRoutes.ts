@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { authToken } from "../middlewares/authMiddlewares";
 
 import {
   createEstablishment,
@@ -9,8 +9,6 @@ import {
   deleteEstablishment,
   findNearby
 } from "../controllers/establishmentController";
-
-import { authToken } from "../middlewares/authMiddlewares";
 
 const router = Router();
 
