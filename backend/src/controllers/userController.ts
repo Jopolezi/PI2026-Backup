@@ -241,7 +241,7 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getLogged = async (req: Request, res: Response) => {
+export const getMe = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
 

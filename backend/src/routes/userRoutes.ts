@@ -7,7 +7,7 @@ import {
   updateUser,
   deleteUser,
   loginUser,
-  getLogged
+  getMe
 } from "../controllers/userController";
 
 const router = Router();
@@ -16,7 +16,7 @@ router.post("/auth/login", loginUser);
 
 router.post("/", createUser);
 
-router.get("/logged", authToken, getLogged);
+router.get("/me", authToken, getMe);
 
 router.get("/", authToken, getUsers);
 router.get("/:id", authToken, getUserById);
