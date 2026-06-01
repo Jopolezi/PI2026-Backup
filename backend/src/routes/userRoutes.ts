@@ -6,7 +6,8 @@ import {
   getUserById,
   updateUser,
   deleteUser,
-  loginUser
+  loginUser,
+  getLogged
 } from "../controllers/userController";
 
 const router = Router();
@@ -14,8 +15,12 @@ const router = Router();
 router.post("/auth/login", loginUser);
 
 router.post("/", createUser);
+
+router.get("/logged", authToken, getLogged);
+
 router.get("/", authToken, getUsers);
 router.get("/:id", authToken, getUserById);
+
 router.put("/:id", authToken, updateUser);
 router.delete("/:id", authToken, deleteUser);
 

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import express from "express";
+import cors from "cors";
 
 import { AppDataSource } from "./database/data-source";
 
@@ -17,11 +18,16 @@ import notificationRoutes from "./routes/notificationRoutes";
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5500",
+  })
+);
+
 app.use(express.json());
 
 AppDataSource.initialize()
   .then(() => {
-
     console.log("Banco conectado 🚀");
 
     app.use("/users", userRoutes);
@@ -36,7 +42,6 @@ AppDataSource.initialize()
     app.use("/favorites", favoriteRoutes);
     app.use("/notifications", notificationRoutes);
 
-
     app.get("/", (req, res) => {
       res.send("API rodando 🚀");
     });
@@ -44,7 +49,6 @@ AppDataSource.initialize()
     app.listen(3000, () => {
       console.log("Servidor rodando em http://localhost:3000");
     });
-
   })
   .catch((error) => {
     console.error("Erro ao conectar no banco:", error);

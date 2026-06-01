@@ -240,3 +240,23 @@ export const loginUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getLogged = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.id;
+
+    const user = await repo.findOneBy({ id: userId });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "Usuário não encontrado",
+      });
+    }
+
+    return res.json(removePassword(user));
+  } catch (error) {
+    return res.status(500).json({
+      error: "Erro no servidor",
+    });
+  }
+};
