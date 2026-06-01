@@ -1,5 +1,5 @@
 // Imports
-import { BusinessHeader } from "@/components/common/header";
+import { BusinessHeader } from "@/components/layout/header";
 import {
   BusinessHero,
   BusinessHighlight,
@@ -8,7 +8,7 @@ import {
   BusinessSegments,
   BusinessPlans
 } from "./sections";
-import { BusinessFooter } from "../../../components/common/footer/Business/BusinessFooter";
+import { BusinessFooter } from "../../../components/layout/footer/Business/BusinessFooter";
 
 export default function LandingEnterprise() {
   return (

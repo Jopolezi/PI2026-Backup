@@ -1,6 +1,6 @@
 // Imports 
 import { ClientHero, ClientMap, ClientHow, ClientReviews } from "./sections/index"
-import { ConsumerFooter } from "../../../components/common/footer/Consumer/ConsumerFooter"
+import { ConsumerFooter } from "../../../components/layout/footer/Consumer/ConsumerFooter"
 
 export default function LandingClient() {
 

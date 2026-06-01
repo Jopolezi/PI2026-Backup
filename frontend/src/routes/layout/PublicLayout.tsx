@@ -1,6 +1,6 @@
 // Imports
 import { Outlet } from "react-router"
-import { ConsumerHeader } from "../../components/common/header"
+import { ConsumerHeader } from "../../components/layout/header"
 
  const PublicLayout = () => {
 

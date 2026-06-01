@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom"
-import PublicLayout from "./layouts/PublicLayout"
+import PublicLayout from "./layout/PublicLayout"
 
 // Pages
 import LandingClient from "@/pages/landings/Client/LandingClient"
