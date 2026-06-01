@@ -2,17 +2,26 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany
 } from "typeorm";
-import { User } from "./User";
 
-@Entity()
+import { User } from "./User";
+import { Establishment } from "./Establishment";
+
+@Entity("companys")
 export class Company {
+
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  name!: string;
+  fantasyName!: string;
+
+  @Column({ unique: true })
+  cnpj!: string;
 
   @Column()
   description!: string;
@@ -20,24 +29,18 @@ export class Company {
   @Column()
   phone!: string;
 
-  @Column()
-  address!: string;
+  @CreateDateColumn()
+  createdAt!: Date;
 
-  @Column()
-  city!: string;
-
-  @Column()
-  state!: string;
-
-  @Column({ unique: true })
-  cnpj!: string;
-
-  @Column("float")
-  latitude!: number;
-
-  @Column("float")
-  longitude!: number;
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
   @ManyToOne(() => User)
-  user!: User;
+  owner!: User;
+
+  @OneToMany(
+    () => Establishment,
+    (establishment) => establishment.company
+  )
+  establishments!: Establishment[];
 }

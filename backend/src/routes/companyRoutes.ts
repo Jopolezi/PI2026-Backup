@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { authToken } from "../middlewares/authMiddlewares";
-
 import {
   createCompany,
-  getCompany,
+  getCompanies,
   getCompanyById,
   updateCompany,
   deleteCompany
@@ -11,7 +10,7 @@ import {
 
 const router = Router();
 
-router.get("/", getCompany);
+router.get("/", getCompanies);
 router.get("/:id", getCompanyById);
 
 router.post("/", authToken, createCompany);

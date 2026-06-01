@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { User } from "../models/User";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+
+import { hashPassword } from "../utils/auth/hashPassword";
+import { comparePassword } from "../utils/auth/comparePassword";
+import { generateToken } from "../utils/auth/generateToken";
+
+import { removePassword } from "../utils/user/removePassword";
 
 const repo = AppDataSource.getRepository(User);
 
@@ -11,15 +15,20 @@ export const createUser = async (req: Request, res: Response) => {
     const { email, password, name } = req.body;
 
     if (!email || !password || !name) {
-      return res.status(400).json({ error: "Preencha todos os campos" });
+      return res.status(400).json({
+        error: "Preencha todos os campos"
+      });
     }
 
-    const exixtingUser = await repo.findOneBy({ email });
-    if (exixtingUser) {
-      return res.status(400).json({ error: "Email já cadastrado" });
+    const existingUser = await repo.findOneBy({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        error: "Email já cadastrado"
+      });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashPassword(password);
 
     const user = repo.create({
       email,
@@ -29,13 +38,14 @@ export const createUser = async (req: Request, res: Response) => {
 
     await repo.save(user);
 
-    const { password: _, ...userWithoutPassword } = user;
-
-    return res.status(201).json(userWithoutPassword);
+    return res.status(201).json(removePassword(user));
 
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Erro no servidor" });
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
   }
 };
 
@@ -43,13 +53,16 @@ export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await repo.find();
 
-    const usersWithoutPassword = users.map(({ password, ...rest }) => rest);
+    const usersWithoutPassword = users.map(removePassword);
 
     return res.json(usersWithoutPassword);
 
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Erro no servidor" });
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
   }
 };
 
@@ -58,21 +71,27 @@ export const getUserById = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     if (isNaN(id)) {
-      return res.status(400).json({ error: "ID inválido" });
+      return res.status(400).json({
+        error: "ID inválido"
+      });
     }
 
     const user = await repo.findOneBy({ id });
 
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return res.status(404).json({
+        error: "Usuário não encontrado"
+      });
     }
-    const { password, ...userWithoutPassword } = user;
 
-    return res.json(userWithoutPassword);
+    return res.json(removePassword(user));
 
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Erro no servidor" });
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
   }
 };
 
@@ -81,12 +100,17 @@ export const updateUser = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     if (isNaN(id)) {
-      return res.status(400).json({ error: "ID inválido" });
+      return res.status(400).json({
+        error: "ID inválido"
+      });
     }
+
     const userIdFromToken = (req as any).user.id;
 
     if (userIdFromToken !== id) {
-      return res.status(403).json({ error: "Sem permissão" });
+      return res.status(403).json({
+        error: "Sem permissão"
+      });
     }
 
     const { email, password, name } = req.body;
@@ -94,33 +118,41 @@ export const updateUser = async (req: Request, res: Response) => {
     const user = await repo.findOneBy({ id });
 
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return res.status(404).json({
+        error: "Usuário não encontrado"
+      });
     }
 
     if (email) {
       const emailExists = await repo.findOneBy({ email });
 
       if (emailExists && emailExists.id !== id) {
-        return res.status(400).json({ error: "Email já está em uso" });
+        return res.status(400).json({
+          error: "Email já está em uso"
+        });
       }
 
       user.email = email;
     }
 
-    if (name) user.name = name;
+    if (name) {
+      user.name = name;
+    }
 
     if (password) {
-      user.password = await bcrypt.hash(password, 10);
+      user.password = await hashPassword(password);
     }
 
     await repo.save(user);
 
-    const { password: _, ...userWithoutPassword } = user;
+    return res.json(removePassword(user));
 
-    return res.json(userWithoutPassword);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Erro no servidor" });
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
   }
 };
 
@@ -129,27 +161,39 @@ export const deleteUser = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     if (isNaN(id)) {
-      return res.status(400).json({ error: "ID inválido" });
+      return res.status(400).json({
+        error: "ID inválido"
+      });
     }
 
     const userIdFromToken = (req as any).user.id;
 
     if (userIdFromToken !== id) {
-      return res.status(403).json({ error: "Sem permissão" });
+      return res.status(403).json({
+        error: "Sem permissão"
+      });
     }
 
     const user = await repo.findOneBy({ id });
 
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return res.status(404).json({
+        error: "Usuário não encontrado"
+      });
     }
 
     await repo.remove(user);
 
-    return res.json({ mensagem: "Usuário deletado" });
+    return res.json({
+      message: "Usuário deletado"
+    });
+
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Erro no servidor" });
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
   }
 };
 
@@ -158,33 +202,41 @@ export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Preencha email e senha" });
+      return res.status(400).json({
+        error: "Preencha email e senha"
+      });
     }
 
     const user = await repo.findOneBy({ email });
 
     if (!user) {
-      return res.status(401).json({ error: "Email ou senha inválidos" });
+      return res.status(401).json({
+        error: "Email ou senha inválidos"
+      });
     }
 
-    const isValid = await bcrypt.compare(password, user.password);
+    const isValid = await comparePassword(password, user.password);
 
     if (!isValid) {
-      return res.status(401).json({ error: "Email ou senha inválidos" });
+      return res.status(401).json({
+        error: "Email ou senha inválidos"
+      });
     }
 
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET as string,
-      { expiresIn: "1h" }
-    );
+    const token = generateToken({
+      id: user.id
+    });
 
+    return res.json({
+      token,
+      user: removePassword(user)
+    });
 
-    const { password: _, ...userWithoutPassword } = user;
-
-    return res.json({ token, user: userWithoutPassword });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Erro no servidor" });
+
+    return res.status(500).json({
+      error: "Erro no servidor"
+    });
   }
 };
