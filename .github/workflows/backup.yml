@@ -18,6 +18,6 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - run: |
-          git push --prune "$DEST" \
+          git -c http.https://github.com/.extraheader= push --prune "$DEST" \
             "+refs/remotes/origin/*:refs/heads/*" \
             "+refs/tags/*:refs/tags/*"
