@@ -11,11 +11,12 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     env:
-      DEST: https://Jopolezi${{ secrets.BACKUP_TOKEN }}@github.com/Jopolezi/PI2026-Backup.git
+      DEST: https://Jopolezi:${{ secrets.BACKUP_TOKEN }}@github.com/Jopolezi/PI2026-Backup.git
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - run: |
           git push --prune "$DEST" \
             "+refs/remotes/origin/*:refs/heads/*" \
